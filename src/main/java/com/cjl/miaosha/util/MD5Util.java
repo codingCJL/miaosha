@@ -18,20 +18,18 @@ public class MD5Util {
 
     //将用户输入的密码和固定的salt加密
     public static String inputPassToFormPass(String inputPass){
-        String str = ""+salt.charAt(0)+salt.charAt(2) + inputPass +salt.charAt(5) + salt.charAt(4);
+        String str = inputPass+salt;
         return md5(str);
     }
 
     //将用户输入的密码和固定的salt加密的结果和随机salt加密
     public static String formPassToDBPass(String formPass,String salt){
-        String str = ""+salt.charAt(0)+salt.charAt(2) + formPass +salt.charAt(5) + salt.charAt(4);
+        String str = formPass+salt;
         return md5(str);
     }
 
-    //将两次加密的结果存入数据库
-    public static String inputPassToDBPass(String input,String saltDB){
-        String formPass=inputPassToFormPass(input);
-        String dbPass = formPassToDBPass(formPass, saltDB);
-        return dbPass;
+    public static void main(String[] args) {
+        System.out.println(inputPassToFormPass("123456"));
+        System.out.println(formPassToDBPass("ceed236a1804014d4425fa8dcf1e539c", "a90d"));
     }
 }

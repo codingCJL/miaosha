@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>登录</title>
+    <title>注册</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <!-- jquery -->
@@ -26,10 +26,10 @@
 <div class="modal-dialog" style="margin-top: 10%;">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title text-center" id="myModalLabel">登录</h4>
+            <h4 class="modal-title text-center" id="myModalLabel">注册</h4>
         </div>
         <div class="modal-body" id = "model-body">
-            <form name="loginForm" id="loginForm" method="post">
+            <form name="registerForm" id="registerForm" method="post">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
@@ -40,15 +40,21 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
+                            <input id="nickname" name = "nickname" class="form-control" type="text" placeholder="起个名字吧" required="true"  minlength="3" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
                             <input id="password" name="password" class="form-control" type="password"  placeholder="密码" required="true" minlength="6" maxlength="16" />
                         </div>
                     </div>
-
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="btn btn-primary btn-block" type="submit" onclick="login()">登录</button>
+                            <button class="btn btn-primary btn-block" type="submit" onclick="register()">注册</button>
                         </div>
                         <div class="col-md-6">
                             <button class="btn btn-primary btn-block" type="reset" onclick="reset()">重置</button>
@@ -59,7 +65,7 @@
 
         </div>
         <div class="modal-footer">
-            没有账号？<a href="/register/Page">立即注册</a>
+
 
         </div>
     </div><!-- /.modal-content -->
@@ -68,14 +74,14 @@
 
 </body>
 <script>
-    function login(){
-        $("#loginForm").validate({
+    function register(){
+        $("#registerForm").validate({
             submitHandler:function(form){
-                doLogin();
+                doRegister();
             }
         });
     }
-    function doLogin(){
+    function doRegister(){
         g_showLoading();
 
         //将用户输入的密码进行md5加密传输
@@ -85,17 +91,18 @@
         var password = md5(str);
 
         $.ajax({
-            url: "/login/do_login",
+            url: "/register/do_register",
             type: "POST",
             data:{
-                mobile:$("#mobile").val(),
+                id:$("#mobile").val(),
+                nickname:$("#nickname").val(),
                 password: password
             },
             success:function(data){
                 layer.closeAll();
                 if(data.code == 0){
-                    layer.msg("登录成功");
-                    window.location.href="/goods/to_list";
+                    layer.msg("注册成功");
+                    window.location.href="/login/Page";
                 }else{
                     layer.msg(data.msg);
                 }
